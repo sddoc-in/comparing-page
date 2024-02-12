@@ -38,5 +38,5 @@ app.use(express.json())
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'));
 // })
-// createConnection();
+createConnection();
 app.listen(PORT, () => console.log('Server is running at ' + PORT))

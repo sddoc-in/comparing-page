@@ -26,6 +26,7 @@ export async function getPlatforms(req, res) {
         Papa.parse(filedata, {
             header: true,
             delimiter: ",",
+            skipEmptyLines: true,
             complete: function (results) {
                 data = results.data;
             }
