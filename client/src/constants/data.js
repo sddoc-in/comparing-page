@@ -1,0 +1,1 @@
+export const BASE_API_URL = "https://special-palm-tree-5p6v9xg94jxcvr6g-8001.app.github.dev/"

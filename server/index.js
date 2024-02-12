@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import router from './routes/route.js';
+import createConnection from './connection/connection.js';
 // import path from 'path'
 // import { fileURLToPath } from 'url';
 
@@ -37,5 +38,5 @@ app.use(express.json())
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'));
 // })
-
+// createConnection();
 app.listen(PORT, () => console.log('Server is running at ' + PORT))
