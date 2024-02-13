@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { BASE_API_URL } from "./constants/data";
 
-const CompanySelector = ({ companyData }) => {
+const CompanySelector = ({ companyData,setData }) => {
   const [filteredCompanies, setFilteredCompanies] = useState(companyData);
   const [selectedCompany, setSelectedCompany] = useState("");
   const [featuresData, setFeaturesData] = React.useState([]);
   const [platformType, setPlatformtype] = useState('');
+  const [platformBlurb, setPlatformBlurb] = useState('');
   const [show, setShow] = React.useState(false);
 
   function Show() {
@@ -32,10 +33,16 @@ const CompanySelector = ({ companyData }) => {
     );
     setFeaturesData(data.data);
     // console.log(data)
-    // setPlatformBlurb(data["data"]["platform"]["platform_blurb"]);
+    setPlatformBlurb(data["data"]["platform"]["platform_blurb"]);
     setPlatformtype(data["data"]["platform"]["platform_type"]);
     // console.log(data["data"]["features"][platform_id]["feature_descr"])
     setFeaturesData(data["data"]["features"]);
+    setData(
+        "platform is " +  selectedCompany + 
+        " ,platform type is " +  data["data"]["platform"]["platform_type"]+
+        " ,platform description is " +  data["data"]["platform"]["platform_blurb"]+
+        " and features are " + data["data"]["features"].map((feature) => feature.feature_descr + ",").join(" ")
+    );
   }
 
   const handleCompanySelect = (platform) => {
@@ -44,7 +51,7 @@ const CompanySelector = ({ companyData }) => {
     getfeatures(platform.id);
   };
 
-  React.useEffect(() => {}, [companyData]);
+  React.useEffect(() => { }, [companyData]);
 
   return (
     <>
@@ -93,22 +100,24 @@ const CompanySelector = ({ companyData }) => {
       <br />
       <label className="text-xl text-black font-[poppins] font-semibold">Platform Type</label>
       <div
-        type="text"
-        // value={platformType}
-        readOnly
         className="input w-full rounded-lg text-[14px] text-black font-medium disabled:bg-white disabled:text-black placeholder:font-normal placeholder:text-[#000] bg-white text-lg flex items-center"
         style={{ borderColor: "rgb(189, 189, 189)" }}
       >{platformType}</div>
       <br />
-
-      <div className="mt-4 p-6 rounded-lg shadow-lg bg-white">
-  <h2 className="text-2xl font-semibold text-black font-[poppins] py-2">Features:</h2>
-  <ul className="list-disc pl-6 text-black">
-    {featuresData.map((feature, index) => (
-      <li key={index} className="text-sm mb-2">{feature.feature_descr}</li>
-    ))}
-  </ul>
-</div>
+      <label className="text-xl text-black font-[poppins] font-semibold">Platform Blurb</label>
+      <div
+        className="p-2 w-full min-h-12 rounded-lg text-[14px] text-black  disabled:bg-white disabled:text-black placeholder:font-normal placeholder:text-[#000] bg-white text-lg flex items-center"
+        style={{ borderColor: "rgb(189, 189, 189)" }}
+      >{platformBlurb}</div>
+      <br />
+      <div className="mt-4 p-6 rounded-lg shadow-lg bg-white max-h-[300px] overflow-y-scroll scroll-hide">
+        <h2 className="text-2xl font-semibold text-black font-[poppins] py-2">Features:</h2>
+        <ul className="list-disc pl-6 text-black">
+          {featuresData.map((feature, index) => (
+            <li key={index} className="text-sm mb-2">{feature.feature_descr}</li>
+          ))}
+        </ul>
+      </div>
       <br />
     </>
   );
