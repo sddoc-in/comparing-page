@@ -21,9 +21,9 @@ export default function App() {
   }, [])
 
   return (
-    <div className='bg-gradient-to-r from-green-500 via-white to-green-500 h-screen w-full m-auto py-12 border-4 border-black border-dotted'>
+    <div className='bg-gradient-to-r from-green-500 via-white to-green-500 w-full m-auto py-12 border-4 border-black border-dotted'>
       <div className='flex justify-around items-center w-11/12 md:w-10/12 mx-auto flex-col md:flex-row'>
-        <div className='p-10 w-full md:w-[40%] border rounded-2xl h-[40rem] bg-gray-100'>
+        <div className='p-10 w-full h-[55rem] md:w-[40%] border rounded-2xl bg-gray-100'>
           {
             dummyData.length > 0 &&
             <CompanySelector companyData={dummyData} />
@@ -44,7 +44,7 @@ export default function App() {
             </div>
           </dialog>
         </div>
-        <div className='p-10 w-full md:w-[40%] border rounded-2xl h-[40rem]  bg-gray-100'>
+        <div className='p-10 w-full h-[55rem] md:w-[40%] border rounded-2xl bg-gray-100'>
           {
             dummyData.length > 0 &&
             <CompanySelector companyData={dummyData} />

@@ -51,16 +51,16 @@ export async function getFeatures(req, res) {
             return platform.platform_id == id;
         })
 
-        platformData = featuresData.filter((platform) => {
+        platformData = platformData.filter((platform) => {
             return platform.Platform_id == id;
         })[0]
 
-        let data = {
+        let data1 = {
             platform: platformData,
             features: featuresData
         }
 
-        res.status(201).json({ data: data, message: "" });
+        res.status(201).json({ data: data1, message: "" });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server error" });
