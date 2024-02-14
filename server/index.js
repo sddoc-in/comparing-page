@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 
 const app = express()
-const PORT = process.env.PORT || 80
+const PORT = process.env.PORT || 800
 
 
 app.use(bodyParser.json({ extended: true }));

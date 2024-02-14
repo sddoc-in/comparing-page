@@ -1,14 +1,10 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-import { BASE_API_URL } from "./constants/data";
 
-const CompanySelector = ({ companyData,setData }) => {
+
+export default function CompanySelector2({ companyData,setData  }) {
   const [filteredCompanies, setFilteredCompanies] = useState(companyData);
   const [selectedCompany, setSelectedCompany] = useState("");
-  const [featuresData, setFeaturesData] = React.useState([]);
-  const [platformType, setPlatformtype] = useState('');
-  const [platformBlurb, setPlatformBlurb] = useState('');
   const [show, setShow] = React.useState(false);
 
   function Show() {
@@ -27,28 +23,11 @@ const CompanySelector = ({ companyData,setData }) => {
     setShow(true);
   }
 
-  async function getfeatures(platform_id) {
-    const { data } = await axios.get(
-      BASE_API_URL + "api/get-features?id=" + platform_id
-    );
-    setFeaturesData(data.data);
-    // console.log(data)
-    setPlatformBlurb(data["data"]["platform"]["platform_blurb"]);
-    setPlatformtype(data["data"]["platform"]["platform_type"]);
-    // console.log(data["data"]["features"][platform_id]["feature_descr"])
-    setFeaturesData(data["data"]["features"]);
-    setData(
-        "platform is " +  selectedCompany + 
-        " ,platform type is " +  data["data"]["platform"]["platform_type"]+
-        " ,platform description is " +  data["data"]["platform"]["platform_blurb"]+
-        " and features are " + data["data"]["features"].map((feature) => feature.feature_descr + ",").join(" ")
-    );
-  }
 
   const handleCompanySelect = (platform) => {
     setSelectedCompany(platform);
+    setData((prev) => ({ ...prev, targetPlatform: platform.platform }))
     Show();
-    getfeatures(platform.id);
   };
 
   React.useEffect(() => { }, [companyData]);
@@ -96,31 +75,7 @@ const CompanySelector = ({ companyData,setData }) => {
           </div>
         )}
       </div>
-
-      <br />
-      <label className="text-xl text-black font-[poppins] font-semibold">Platform Type</label>
-      <div
-        className="input w-full rounded-lg text-[14px] text-black font-medium disabled:bg-white disabled:text-black placeholder:font-normal placeholder:text-[#000] bg-white text-lg flex items-center"
-        style={{ borderColor: "rgb(189, 189, 189)" }}
-      >{platformType}</div>
-      <br />
-      <label className="text-xl text-black font-[poppins] font-semibold">Platform Blurb</label>
-      <div
-        className="p-2 w-full min-h-12 rounded-lg text-sm text-black  disabled:bg-white disabled:text-black placeholder:font-normal placeholder:text-[#000] bg-white flex items-center"
-        style={{ borderColor: "rgb(189, 189, 189)" }}
-      >{platformBlurb}</div>
-      <br />
-      <div className="mt-4 p-6 rounded-lg shadow-lg bg-white max-h-[300px] overflow-y-scroll scroll-hide">
-        <h2 className="text-2xl font-semibold text-black font-[poppins] py-2">Features:</h2>
-        <ul className="list-disc pl-6 text-black">
-          {featuresData.map((feature, index) => (
-            <li key={index} className="text-sm mb-2">{feature.feature_descr}</li>
-          ))}
-        </ul>
-      </div>
-      <br />
     </>
   );
 };
 
-export default CompanySelector;
