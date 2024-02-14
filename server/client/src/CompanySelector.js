@@ -106,7 +106,7 @@ const CompanySelector = ({ companyData,setData }) => {
       <br />
       <label className="text-xl text-black font-[poppins] font-semibold">Platform Blurb</label>
       <div
-        className="p-2 w-full min-h-12 rounded-lg text-[14px] text-black  disabled:bg-white disabled:text-black placeholder:font-normal placeholder:text-[#000] bg-white text-lg flex items-center"
+        className="p-2 w-full min-h-12 rounded-lg text-sm text-black  disabled:bg-white disabled:text-black placeholder:font-normal placeholder:text-[#000] bg-white flex items-center"
         style={{ borderColor: "rgb(189, 189, 189)" }}
       >{platformBlurb}</div>
       <br />

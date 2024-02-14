@@ -3,16 +3,16 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import router from './routes/route.js';
 import createConnection from './connection/connection.js';
-// import path from 'path'
-// import { fileURLToPath } from 'url';
+import path from 'path'
+import { fileURLToPath } from 'url';
 
 
-// const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 
 
 const app = express()
-const PORT = process.env.PORT || 8001
+const PORT = process.env.PORT || 80
 
 
 app.use(bodyParser.json({ extended: true }));
@@ -24,12 +24,12 @@ app.use(express.json())
 
 // for deploying on heroku also move client from ../client to ./client also change api url from "http://localhost:8000" to nothin 
 // just remove that 
-// app.use(express.static(path.join(__dirname, 'client', 'build')));
-// if (process.env.NODE_ENV == "production") {
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-//   })
-// }
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+if (process.env.NODE_ENV == "production") {
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  })
+}
 
 
 

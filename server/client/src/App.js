@@ -10,7 +10,7 @@ export default function App() {
   const [dummyData, setDummyData] = React.useState([])
   const [compareData, setCompareData] = React.useState({})
   const [compareData1, setCompareData1] = React.useState({})
-  const [summary, setSummary] = React.useState([])
+  const [summary, setSummary] = React.useState("")
 
   const getPlatforms = React.useRef(() => { })
 
@@ -19,23 +19,21 @@ export default function App() {
     setDummyData(data.data)
   }
 
-
   async function compare() {
-    try{
-    const { data } = await axios.post(BASE_API_URL + "api/summarize", {
-      data: "Please compare " + compareData + " and " + compareData1 + " and tell me the best platform for me."
-    })
-    console.log(data)
-    if (data.message === "success") {
-      setSummary(data.data)
-      document.getElementById('my_modal_3').showModal()
+    try {
+      const { data } = await axios.post(BASE_API_URL + "api/summarize", {
+        data: "Please compare " + compareData + " and " + compareData1 + " and tell me the best platform for me."
+      })
+      if (data.message === "success") {
+        setSummary(data.data)
+        document.getElementById('my_modal_3').showModal()
+      }
+      else {
+        alert('Error')
+      }
+    } catch (error) {
+      console.log(error)
     }
-    else {
-      alert('Error')
-    }
-  }catch(error){
-    console.log(error)
-  }
   }
 
   React.useEffect(() => {
@@ -55,12 +53,16 @@ export default function App() {
           <h1 className='text-black text-4xl font-bold font-[poppins] px-16'>VS</h1>
           <button className="btn mt-9 bg-green-500 text-black text-xl hover:text-white" onClick={compare}>Compare</button>
           <dialog id="my_modal_3" className="modal">
-            <div className="modal-box bg-white border-4 border-green-500 text-black">
+            <div className="modal-box bg-white border-4 border-green-500 text-black mx-h-[60vh] overflow-y-scroll scroll-hide">
               <form method="dialog ">
                 <button className="btn btn-sm btn-circle border-black btn-ghost absolute right-2 top-2">✕</button>
               </form>
               <h3 className="font-bold text-lg">Your Result</h3>
-              <p className="py-4">{summary}</p>
+              <div className="py-4 ">
+                {summary.split('\n').map((line, index) => (
+                  <p key={index} className='my-2'>{line}</p>
+                ))}
+              </div>
             </div>
           </dialog>
         </div>

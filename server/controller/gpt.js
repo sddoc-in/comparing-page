@@ -2,7 +2,7 @@
 import { OpenAI } from 'openai';
 
 
-const openai = new OpenAI({apiKey:''}); // key to be added
+const openai = new OpenAI({apiKey:'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'}); // key to be added
 
 
 
