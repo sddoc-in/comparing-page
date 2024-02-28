@@ -26,7 +26,7 @@ export default function CompanySelector2({ companyData,setData  }) {
 
   const handleCompanySelect = (platform) => {
     setSelectedCompany(platform);
-    setData((prev) => ({ ...prev, targetPlatform: platform.platform }))
+    setData((prev) => ({ ...prev, targetPlatform: platform.platform_name }))
     Show();
   };
 
@@ -49,7 +49,7 @@ export default function CompanySelector2({ companyData,setData  }) {
         <input
           type="text"
           name={"company-name"}
-          defaultValue={selectedCompany.platform}
+          defaultValue={selectedCompany.platform_name}
           onChange={(e) => filterCompanies(e.target.value)}
           placeholder={"Type a Platform"}
           className={
@@ -67,7 +67,7 @@ export default function CompanySelector2({ companyData,setData  }) {
               >
                 <div className="flex items-center">
                   <p className="text-[black] ml-2 text-[14px]">
-                    {data.platform}
+                    {data.platform_name}
                   </p>
                 </div>
               </div>

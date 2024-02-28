@@ -4,10 +4,9 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { BASE_API_URL } from "../constants/data";
 
 
-export default function CompanySelector({ companyData, setData, data }) {
+export default function CompanySelector({ companyData, setData, data,setCoreFeatures,coreFeatures }) {
   const [filteredCompanies, setFilteredCompanies] = useState(companyData);
   const [selectedCompany, setSelectedCompany] = useState("");
-  const [featuresData, setFeaturesData] = React.useState([]);
   const [platformType, setPlatformtype] = useState('');
   const [platformBlurb, setPlatformBlurb] = useState('');
   const [show, setShow] = React.useState(false);
@@ -21,26 +20,26 @@ export default function CompanySelector({ companyData, setData, data }) {
       setFilteredCompanies(companyData);
       return;
     }
-    const filtered = filteredCompanies.filter((item) => {
-      return item.platform.toLowerCase().startsWith(value.toLowerCase());
+    console.log(value);
+    const filtered = companyData.filter((item) => {
+      console.log(item);
+      return item.platform_name.toLowerCase().startsWith(value.toLowerCase());
     });
     setFilteredCompanies(filtered);
     setShow(true);
   }
 
-  async function getfeatures(platform_id) {
+  async function getfeatures(platform) {
     const { data } = await axios.get(
-      BASE_API_URL + "api/get-features?id=" + platform_id
+      BASE_API_URL + "get_feature?platform_id=" + platform.Platform_id
     );
-    setFeaturesData(data.data);
-    setPlatformBlurb(data["data"]["platform"]["platform_blurb"]);
-    setPlatformtype(data["data"]["platform"]["platform_type"]);
-    setFeaturesData(data["data"]["features"]);
+    const tmpData = data.map((item) => item.feature_descr);
+    setCoreFeatures(tmpData);
     setData((prev) => ({
       ...prev, corePlatform: {
-        platformName: data["data"]["platform"]["platform_name"],
-        platformType: data["data"]["platform"]["platform_type"],
-        platformBlurd: data["data"]["platform"]["platform_blurb"],
+        platformName: platform["platform_name"],
+        platformType: platform["platform_type"],
+        platformBlurd: platform["platform_blurb"],
         features: []
       }
     }));
@@ -48,9 +47,11 @@ export default function CompanySelector({ companyData, setData, data }) {
 
   const handleCompanySelect = (platform) => {
     setSelectedCompany(platform);
-    setData((prev) => ({ ...prev, corePlatform: { platformName: platform.platform } }));
+    setPlatformBlurb(platform.platform_blurb);
+    setPlatformtype(platform.platform_type);
+    setData((prev) => ({ ...prev, corePlatform: { platformName: platform.platform_name } }));
     Show();
-    getfeatures(platform.id);
+    getfeatures(platform);
   };
 
   function setSelectedFeaturesWithData(desc) {
@@ -86,7 +87,7 @@ export default function CompanySelector({ companyData, setData, data }) {
         <input
           type="text"
           name={"company-name"}
-          defaultValue={selectedCompany.platform}
+          defaultValue={selectedCompany.platform_name}
           onChange={(e) => filterCompanies(e.target.value)}
           placeholder={"Type a Platform"}
           className={
@@ -104,7 +105,7 @@ export default function CompanySelector({ companyData, setData, data }) {
               >
                 <div className="flex items-center">
                   <p className="text-[black] ml-2 text-[14px]">
-                    {data.platform}
+                    {data.platform_name}
                   </p>
                 </div>
               </div>
@@ -128,12 +129,12 @@ export default function CompanySelector({ companyData, setData, data }) {
       <br />
       <div className="input h-auto mt-4 p-6 rounded-lg shadow-lg bg-white max-h-[300px] overflow-y-scroll scroll-hide">
         <h2 className="text-2xl font-semibold text-black py-2">Features:</h2>
-        {featuresData.map((feature, index) => (
+        {coreFeatures.map((feature, index) => (
           <div key={index} className="flex justify-start my-3 items-center">
             <input type="checkbox" className="checkbox checkbox-primary" name={"feature-" + index}
               onChange={(e) => setSelectedFeaturesWithData(e.target.value)}
-              value={feature.feature_descr} />
-            <label className="text-[14px] text-black ml-2">{feature.feature_descr}</label>
+              value={feature} />
+            <label className="text-[14px] text-black ml-2">{feature}</label>
           </div>
         ))}
       </div>
