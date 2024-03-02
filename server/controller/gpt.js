@@ -33,7 +33,7 @@ export async function gpt(req, res) {
     res.status(201).json({ data: data1, message: "success" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", error: error.message});
   }
 }
 
