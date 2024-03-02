@@ -5,14 +5,18 @@ import router from './routes/route.js';
 import createConnection from './connection/connection.js';
 import path from 'path'
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv'
 
 
+
+dotenv.config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 
 
 const app = express()
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 800
+
 
 
 app.use(bodyParser.json({ extended: true }));
@@ -24,10 +28,10 @@ app.use(express.json())
 
 // for deploying on heroku also move client from ../client to ./client also change api url from "http://localhost:8000" to nothin 
 // just remove that 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-})
+// app.use(express.static(path.join(__dirname, 'client', 'build')));
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+// })
 
 
 
